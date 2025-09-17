@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Smikle Projects & Investments — SPIn</title>
+  <meta name="description" content="Smikle Projects & Investments (SPIn): creative tech holding company across AI, quant finance, robotics, energy, and culture." />
+  <style>
+    :root{
+      --bg:#0b0b0c;           /* deep charcoal */
+      --fg:#e6e6ea;          /* soft white */
+      --muted:#9ea0a6;       /* slate */
+      --card:#111114;        /* panels */
+      --line:#1c1d22;        /* hairlines */
+      --accent:#00e6a8;      /* neon jade */
+      --accent-2:#6fe5ff;    /* cyan tint */
+      --radius:18px;
+      --shadow:0 10px 25px rgba(0,0,0,.35);
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#f8f8fa; --fg:#0b0b0c; --muted:#525560; --card:#ffffff; --line:#e9e9ee; }
+      body{ background:linear-gradient(180deg,#fafaff 0%,#f7fbff 100%); }
+    }
+
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{ margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; color:var(--fg); background:radial-gradient(1200px 600px at 80% -10%, rgba(0,230,168,.16), transparent 60%), radial-gradient(800px 480px at 10% 0%, rgba(111,229,255,.12), transparent 60%), var(--bg); }
+    a{ color:inherit; text-decoration:none }
+    .wrap{ max-width:1120px; margin:0 auto; padding:24px; }
+
+    /* nav */
+    .nav{ position:sticky; top:0; z-index:20; backdrop-filter:saturate(1.1) blur(8px); background:linear-gradient(180deg, rgba(11,11,12,.85), rgba(11,11,12,.6)); border-bottom:1px solid var(--line); }
+    .nav-inner{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 24px; max-width:1120px; margin:0 auto; }
+    .logo{ display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.4px }
+    .logo-badge{ width:28px; height:28px; border-radius:9px; background:conic-gradient(from 180deg, var(--accent), var(--accent-2), var(--accent)); box-shadow:0 0 24px rgba(0,230,168,.45) inset; }
+    .nav-links{ display:flex; gap:18px; align-items:center; font-size:14px; color:var(--muted) }
+    .pill{ border:1px solid var(--line); padding:8px 14px; border-radius:999px; transition:.18s ease; }
+    .pill:hover{ border-color:transparent; box-shadow:0 0 0 2px rgba(0,230,168,.25), 0 8px 18px rgba(0,0,0,.25); color:var(--fg) }
+
+    /* hero */
+    .hero{ padding:96px 24px 56px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,rgba(0,230,168,.06),transparent 45%); }
+    .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); border:1px solid var(--line); padding:6px 10px; border-radius:999px; }
+    .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 10px var(--accent); }
+    h1{ font-size: clamp(32px, 6vw, 64px); line-height:1.02; letter-spacing:-.02em; margin:18px 0 14px; }
+    .sub{ max-width:760px; font-size: clamp(16px, 2.5vw, 20px); color:var(--muted); }
+    .cta-row{ display:flex; gap:12px; margin-top:28px; flex-wrap:wrap }
+    .btn{ padding:13px 18px; border-radius:12px; font-weight:600; border:1px solid var(--line); background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00)); box-shadow:var(--shadow); }
+    .btn.primary{ background:linear-gradient(180deg, rgba(0,230,168,.16), rgba(0,230,168,.08)); border-color:rgba(0,230,168,.45) }
+    .btn:hover{ transform:translateY(-1px) }
+
+    /* marquee */
+    .marquee{ overflow:hidden; white-space:nowrap; border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:linear-gradient(90deg,transparent,rgba(111,229,255,.05),transparent); }
+    .marquee-track{ display:inline-block; padding:18px 0; animation:slide 18s linear infinite; }
+    .chip{ display:inline-flex; align-items:center; gap:10px; margin:0 20px; padding:8px 12px; border:1px solid var(--line); border-radius:999px; color:var(--muted); font-size:14px }
+    .chip .pulse{ width:7px; height:7px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 0 0 rgba(111,229,255,.7); animation:pulse 2.4s infinite; }
+    @keyframes slide{ 0%{ transform:translateX(0)} 100%{ transform:translateX(-50%)} }
+    @keyframes pulse{ 0%{ box-shadow:0 0 0 0 rgba(111,229,255,.7)} 70%{ box-shadow:0 0 0 12px rgba(111,229,255,0)} 100%{ box-shadow:0 0 0 0 rgba(111,229,255,0)} }
+
+    /* grid */
+    .section{ padding:64px 24px; }
+    .grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap:16px; }
+    .card{ grid-column: span 12; background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00)); border:1px solid var(--line); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow); transition: .2s ease; }
+    .card:hover{ transform: translateY(-2px); border-color:rgba(0,230,168,.35) }
+    .kpi{ font-size: clamp(28px, 5vw, 40px); letter-spacing:-.02em; font-weight:800 }
+    .k-sub{ color:var(--muted); font-size:14px }
+    .tag{ display:inline-block; font-size:12px; color:var(--muted); border:1px dashed var(--line); padding:6px 10px; border-radius:999px; margin-bottom:10px }
+
+    @media (min-width: 640px){ .span-6{ grid-column: span 6 } .span-4{ grid-column: span 4 } }
+    @media (min-width: 960px){ .span-7{ grid-column: span 7 } .span-5{ grid-column: span 5 } }
+
+    /* footer */
+    footer{ border-top:1px solid var(--line); padding:40px 24px; color:var(--muted) }
+    .small{ font-size:12px; color:var(--muted) }
+
+    /* subtle scanline (Ars Electronica vibe) */
+    .scan{
+      position: fixed; inset:0; pointer-events:none; background: repeating-linear-gradient( to bottom, rgba(255,255,255,.03), rgba(255,255,255,.03) 1px, transparent 1px, transparent 3px ); opacity:.06; mix-blend-mode: overlay; }
+  </style>
+</head>
+<body>
+  <div class="scan" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="logo">
+        <div class="logo-badge" aria-hidden="true"></div>
+        <a href="#">SPIn</a>
+      </div>
+      <div class="nav-links">
+        <a class="pill" href="#thesis">Thesis</a>
+        <a class="pill" href="#portfolio">Portfolio</a>
+        <a class="pill" href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero wrap">
+    <span class="eyebrow"><span class="dot"></span> Creative Tech Holding Company</span>
+    <h1>Smikle Projects & Investments</h1>
+    <p class="sub">We build and invest in frontier ideas across <strong>AI</strong>, <strong>quant finance</strong>, <strong>robotics</strong>, <strong>energy</strong> and <strong>culture</strong> — pairing rigorous engineering with a luxury design ethos. Think <em>VC + studio + hedge fund</em>.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="#thesis">Read the Thesis</a>
+      <a class="btn" href="#portfolio">View Portfolio</a>
+    </div>
+  </header>
+
+  <section class="marquee" aria-label="focus areas">
+    <div class="marquee-track">
+      <span class="chip"><span class="pulse"></span> Multimodal AI</span>
+      <span class="chip"><span class="pulse"></span> Generative UX</span>
+      <span class="chip"><span class="pulse"></span> Quant Systems</span>
+      <span class="chip"><span class="pulse"></span> Robotics</span>
+      <span class="chip"><span class="pulse"></span> Energy & Materials</span>
+      <span class="chip"><span class="pulse"></span> Creator Economy</span>
+      <span class="chip"><span class="pulse"></span> Jamaica ↔ UK</span>
+      <!-- duplicate for seamless loop -->
+      <span class="chip"><span class="pulse"></span> Multimodal AI</span>
+      <span class="chip"><span class="pulse"></span> Generative UX</span>
+      <span class="chip"><span class="pulse"></span> Quant Systems</span>
+      <span class="chip"><span class="pulse"></span> Robotics</span>
+      <span class="chip"><span class="pulse"></span> Energy & Materials</span>
+      <span class="chip"><span class="pulse"></span> Creator Economy</span>
+      <span class="chip"><span class="pulse"></span> Jamaica ↔ UK</span>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <section id="thesis" class="section">
+      <div class="grid">
+        <article class="card span-7">
+          <div class="tag">Thesis</div>
+          <h2 style="margin:6px 0 10px">We design for signal, not noise.</h2>
+          <p style="color:var(--muted); line-height:1.65">SPIn backs and builds systems that compound: defensible data loops, high‑leverage software, and capital‑efficient hardware. We favour clear edges — proprietary datasets, real‑time inference, and taste‑led UX — with go‑to‑market motion via creators and community.</p>
+          <ul style="margin:14px 0 0; padding-left:18px; color:var(--muted)">
+            <li>Zero to one studios for category‑forming products.</li>
+            <li>Quant workflows for decision‑making and capital allocation.</li>
+            <li>Design language: quiet, premium, performance.</li>
+          </ul>
+        </article>
+        <aside class="card span-5">
+          <div class="tag">Snapshot</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px">
+            <div>
+              <div class="kpi">5</div>
+              <div class="k-sub">active tracks</div>
+            </div>
+            <div>
+              <div class="kpi">∞</div>
+              <div class="k-sub">creative runway</div>
+            </div>
+            <div>
+              <div class="kpi">UK · JM</div>
+              <div class="k-sub">bases</div>
+            </div>
+            <div>
+              <div class="kpi">Studio</div>
+              <div class="k-sub">build + invest</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="portfolio" class="section">
+      <div class="grid">
+        <article class="card span-6">
+          <div class="tag">Flagship</div>
+          <h3 style="margin:6px 0 10px">Tudo</h3>
+          <p style="color:var(--muted); line-height:1.65">AI‑powered fitness, nutrition & recovery platform with multimodal claim‑validation and creator‑first UX. Status: building.</p>
+          <a class="pill" href="#contact" style="margin-top:10px; display:inline-block">Request deck →</a>
+        </article>
+        <article class="card span-6">
+          <div class="tag">Quant</div>
+          <h3 style="margin:6px 0 10px">SPIn Alpha</h3>
+          <p style="color:var(--muted); line-height:1.65">Research stack for systematic strategies and data infra. Long‑only, market‑neutral, and alt‑data experiments. Status: R&D.</p>
+          <a class="pill" href="#contact" style="margin-top:10px; display:inline-block">Collaborate →</a>
+        </article>
+        <article class="card span-6">
+          <div class="tag">Robotics</div>
+          <h3 style="margin:6px 0 10px">Mekhos</h3>
+          <p style="color:var(--muted); line-height:1.65">Applied robotics for capture, build, and motion systems. Status: concept lab.</p>
+        </article>
+        <article class="card span-6">
+          <div class="tag">Materials / Energy</div>
+          <h3 style="margin:6px 0 10px">Graphsoul</h3>
+          <p style="color:var(--muted); line-height:1.65">Graphene‑forward research for power‑dense devices. Status: exploration.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="grid">
+        <article class="card span-7">
+          <div class="tag">Contact</div>
+          <h3 style="margin:6px 0 10px">Let's talk</h3>
+          <p style="color:var(--muted); line-height:1.65">No forms. Just email.</p>
+          <p><a class="btn" href="mailto:hello@spin.studio">hello@spin.studio</a></p>
+          <p class="small">(Change this to whatever inbox you prefer. A free Gmail address works too.)</p>
+        </article>
+        <aside class="card span-5">
+          <div class="tag">Press / Deck</div>
+          <p style="color:var(--muted); line-height:1.65">Request a one‑pager or investor deck. Include your firm and focus.</p>
+          <a class="pill" href="#">Get the one‑pager →</a>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap">
+      <div class="small">© <span id="year"></span> Smikle Projects & Investments — SPIn</div>
+      <div class="small">Built with a single HTML file. Hosted free.</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
