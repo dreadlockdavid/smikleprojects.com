@@ -6,37 +6,41 @@
   <title>Smikle Projects & Investments — SPIn</title>
   <meta name="description" content="SPIn builds and invests in frontier systems across Robotics, Artificial Intelligence, Biotech, and Media Technology — engineered with a human-centred, sustainable design ethos." />
 
-  <!-- EB Garamond -->
+  <!-- EB Garamond (heritage serif) -->
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
     /* ---------- THEME VARIABLES ---------- */
     :root{
+      /* Dark (default) — ink night */
       --bg:#121110;
       --fg:#f5f2ea;
       --muted:#aaa394;
       --card:#1a1816;
       --line:#2a2825;
-      --accent:#c19b6b;
-      --accent-2:#6fa8a4;
+      --accent:#7c5c32;   /* sepia accent */
+      --accent-2:#47636d; /* muted teal */
       --radius:18px;
-      --shadow:0 10px 25px rgba(0,0,0,.35);
+      --shadow:0 10px 25px rgba(0,0,0,.22);
+      --shadow-soft:0 6px 16px rgba(0,0,0,.16);
     }
 
-    /* Light theme (will be applied via JS toggle) */
-    .light {
-      --bg:#f9f7f2;
-      --fg:#1c1b18;
+    /* Light (paper) — applied by .light on <body> */
+    .light{
+      --bg:#f9f7f2;     /* soft paper */
+      --fg:#1c1b18;     /* ink */
       --muted:#5c5a55;
       --card:#ffffff;
       --line:#e5e2da;
       --accent:#7c5c32;
       --accent-2:#47636d;
+      --shadow:0 8px 18px rgba(0,0,0,.10);
+      --shadow-soft:0 6px 14px rgba(0,0,0,.08);
     }
 
-    /* ---------- BASE TYPOGRAPHY / LAYOUT ---------- */
+    /* ---------- BASE ---------- */
     *{ box-sizing:border-box }
-    html,body{ height:100% }
+    html, body{ height:100% }
     body{
       margin:0;
       font-family:'EB Garamond', serif;
@@ -45,151 +49,243 @@
       letter-spacing:.1px;
       color:var(--fg);
       background:var(--bg);
-      transition: background .3s ease, color .3s ease;
+      transition:background .3s ease, color .3s ease;
     }
-    p, li{ font-family:'EB Garamond', serif; line-height:1.7; }
+    /* subtle paper texture using layered gradients (no external image) */
+    body::before{
+      content:"";
+      position:fixed; inset:0; pointer-events:none;
+      background:
+        radial-gradient(1200px 800px at 50% -10%, rgba(0,0,0,.04), transparent 60%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 2px, transparent 2px 4px);
+      mix-blend-mode:overlay; opacity:.08;
+    }
+
+    p, li{ line-height:1.75; }
+
     a{ color:inherit; text-decoration:none }
     .wrap{ max-width:1120px; margin:0 auto; padding:24px; }
 
     /* ---------- NAV ---------- */
     .nav{
-      position:sticky; top:0; z-index:20;
+      position:sticky; top:0; z-index:40;
       backdrop-filter:saturate(1.05) blur(8px);
-      background:color-mix(in oklab, var(--bg) 88%, transparent);
+      background:color-mix(in oklab, var(--bg) 90%, transparent);
       border-bottom:1px solid var(--line);
     }
-    .nav-inner{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 24px; max-width:1120px; margin:0 auto; }
-    .logo{ display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.4px }
-    .logo-badge{ width:28px; height:28px; border-radius:9px; background:conic-gradient(from 180deg, var(--accent), var(--accent-2), var(--accent)); box-shadow:0 0 12px color-mix(in oklab, var(--accent) 40%, transparent) inset; }
-    .nav-links{ display:flex; gap:18px; align-items:center; font-size:14px; color:var(--muted) }
-    .pill{ border:1px solid var(--line); padding:8px 14px; border-radius:999px; transition:.18s ease; background:rgba(255,255,255,.02) }
-    .pill:hover{ transform:translateY(-1px); border-color:color-mix(in oklab, var(--accent) 40%, var(--line)); box-shadow:0 10px 20px rgba(0,0,0,.18); color:var(--fg) }
-
-    /* Theme toggle button */
-    .theme-toggle {
-      cursor:pointer;
-      border:1px solid var(--line);
-      border-radius:50%;
-      width:34px; height:34px;
-      display:flex; align-items:center; justify-content:center;
-      background:var(--card);
-      color:var(--fg);
-      transition:.2s;
-      font-size:16px;
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:14px 24px; max-width:1120px; margin:0 auto;
     }
-    .theme-toggle:hover{ background:var(--accent); color:#fff; }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.4px }
+    .logo-badge{ width:26px; height:26px; border-radius:9px;
+      background:linear-gradient(180deg, var(--accent-2), var(--accent));
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
+    }
+
+    /* Theme toggle (top-right) */
+    .theme-toggle{
+      cursor:pointer; border:1px solid var(--line); border-radius:50%;
+      width:34px; height:34px; display:flex; align-items:center; justify-content:center;
+      background:var(--card); color:var(--fg); transition:.2s; font-size:16px;
+    }
+    .theme-toggle:hover{ box-shadow:var(--shadow-soft); }
+
+    /* Hamburger (top-left) */
+    .hamburger{
+      display:flex; align-items:center; justify-content:center;
+      width:38px; height:38px; border-radius:12px; border:1px solid var(--line);
+      background:var(--card); cursor:pointer; transition:.2s;
+    }
+    .hamburger span, .hamburger::before, .hamburger::after{
+      content:""; display:block; width:18px; height:2px; background:var(--fg);
+      border-radius:2px; transition:.2s;
+    }
+    .hamburger::before{ transform:translateY(-6px) }
+    .hamburger::after{ transform:translateY(6px) }
+    .hamburger.active span{ opacity:0 }
+    .hamburger.active::before{ transform:rotate(45deg) }
+    .hamburger.active::after{ transform:rotate(-45deg) }
+
+    .nav-left{ display:flex; align-items:center; gap:10px }
+    .nav-right{ display:flex; align-items:center; gap:10px }
+
+    /* ---------- OVERLAY MENU ---------- */
+    .menu{
+      position:fixed; inset:0; z-index:50; display:none;
+      background:color-mix(in oklab, var(--bg) 92%, black 8%);
+      backdrop-filter:blur(8px);
+    }
+    .menu.open{ display:block; }
+    .menu-panel{
+      position:absolute; top:0; left:0; height:100%; width:min(86vw, 380px);
+      background:var(--bg); border-right:1px solid var(--line); box-shadow:var(--shadow);
+      padding:22px;
+    }
+    .menu h4{ margin:4px 0 14px 6px; color:var(--muted); font-weight:700; letter-spacing:.4px }
+    .menu a{
+      display:block; padding:12px 14px; margin:2px 0; border-radius:10px;
+      border:1px solid var(--line); background:rgba(255,255,255,.02);
+    }
+    .menu a:hover{ box-shadow:var(--shadow-soft); transform:translateY(-1px) }
 
     /* ---------- HERO ---------- */
-    .hero{ padding:96px 24px 56px; border-bottom:1px solid var(--line); background:none; }
-    .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); border:1px solid var(--line); padding:6px 10px; border-radius:999px; }
-    .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 6px color-mix(in oklab, var(--accent) 70%, transparent); }
-    h1{ font-size: clamp(32px, 6vw, 64px); line-height:1.04; letter-spacing:-.015em; margin:18px 0 14px; font-weight:700; }
-    .sub{ max-width:760px; font-size: clamp(16px, 2.2vw, 20px); color:var(--muted); }
-    .cta-row{ display:flex; gap:12px; margin-top:28px; flex-wrap:wrap }
-    .btn{
-      padding:13px 18px; border-radius:12px; font-weight:600; border:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)); box-shadow:var(--shadow);
+    .hero{ padding:96px 24px 56px; border-bottom:1px solid var(--line); }
+    h1{
+      font-size:clamp(36px, 6vw, 68px); line-height:1.04;
+      letter-spacing:-.015em; margin:18px 0 16px; font-weight:700;
     }
-    .btn.primary{
-      background:linear-gradient(180deg, color-mix(in oklab, var(--accent) 18%, transparent), transparent);
-      border-color:color-mix(in oklab, var(--accent) 55%, var(--line));
+    .sub{ max-width:760px; font-size:clamp(16px, 2.2vw, 20px); color:var(--muted); }
+
+    /* Mission block in hero */
+    .mission{
+      margin-top:28px; max-width:880px;
+      padding:20px 0 0;
     }
-    .btn:hover{ transform:translateY(-1px) }
+    .mission h3{ margin:0 0 8px; font-size:24px; font-weight:700; }
+    .mission p{ color:var(--muted); }
 
-    /* ---------- MARQUEE ---------- */
-    .marquee{ overflow:hidden; white-space:nowrap; border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:transparent; }
-    .marquee-track{ display:inline-block; padding:18px 0; animation:slide 18s linear infinite; }
-    .chip{ display:inline-flex; align-items:center; gap:10px; margin:0 20px; padding:8px 12px; border:1px solid var(--line); border-radius:999px; color:var(--muted); font-size:14px }
-    .chip .pulse{ width:7px; height:7px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 0 0 color-mix(in oklab, var(--accent-2) 70%, transparent); animation:pulse 2.4s infinite; }
-    @keyframes slide{ 0%{ transform:translateX(0)} 100%{ transform:translateX(-50%)} }
-    @keyframes pulse{ 0%{ box-shadow:0 0 0 0 color-mix(in oklab, var(--accent-2) 70%, transparent)} 70%{ box-shadow:0 0 0 12px rgba(0,0,0,0)} 100%{ box-shadow:0 0 0 0 rgba(0,0,0,0)} }
-
-    /* ---------- GRID / CARDS ---------- */
+    /* ---------- SECTIONS / CARDS (kept minimal) ---------- */
     .section{ padding:64px 24px; }
     .grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap:16px; }
     .card{
-      grid-column: span 12;
-      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00));
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      padding:22px;
-      box-shadow:var(--shadow);
-      transition:.2s ease;
+      grid-column: span 12; border:1px solid var(--line); border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+      padding:22px; box-shadow:var(--shadow); transition:.2s;
     }
-    .card:hover{ transform:translateY(-2px); border-color:color-mix(in oklab, var(--accent) 35%, var(--line)); }
-    .kpi{ font-size: clamp(28px, 5vw, 40px); letter-spacing:-.02em; font-weight:800 }
-    .k-sub{ color:var(--muted); font-size:14px }
-    .tag{ display:inline-block; font-size:12px; color:var(--muted); border:1px dashed var(--line); padding:6px 10px; border-radius:999px; margin-bottom:10px }
-
-    @media (min-width:640px){ .span-6{ grid-column: span 6 } .span-4{ grid-column: span 4 } }
-    @media (min-width:960px){ .span-7{ grid-column: span 7 } .span-5{ grid-column: span 5 } }
+    .card:hover{ transform:translateY(-2px) }
 
     /* ---------- FOOTER ---------- */
     footer{ border-top:1px solid var(--line); padding:40px 24px; color:var(--muted) }
-    .small{ font-size:12px; color:var(--muted) }
+    .foot{ display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+    .small{ font-size:12px }
+    .careers{ text-decoration:underline; text-underline-offset:2px }
 
-    /* Headings */
-    h1, h2, h3{ font-family:'EB Garamond', serif; letter-spacing:.3px; font-weight:700; }
+    @media (min-width:640px){ .span-6{ grid-column: span 6 } .span-4{ grid-column: span 4 } }
+    @media (min-width:960px){ .span-7{ grid-column: span 7 } .span-5{ grid-column: span 5 } }
   </style>
 </head>
 
 <body>
+  <!-- NAV -->
   <nav class="nav">
     <div class="nav-inner">
-      <div class="logo">
-        <div class="logo-badge" aria-hidden="true"></div>
-        <a href="#">SPIn</a>
+      <div class="nav-left">
+        <button id="menuBtn" class="hamburger" aria-label="Open menu"><span></span></button>
+        <div class="brand">
+          <div class="logo-badge" aria-hidden="true"></div>
+          <a href="#" aria-label="SPIn home">SPIn</a>
+        </div>
       </div>
-      <div class="nav-links">
-        <a class="pill" href="#thesis">Thesis</a>
-        <a class="pill" href="#portfolio">Portfolio</a>
-        <a class="pill" href="#contact">Contact</a>
-        <!-- Theme Toggle Button -->
+      <div class="nav-right">
+        <!-- Removed top-right pills; only theme toggle remains -->
         <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">🌙</button>
       </div>
     </div>
   </nav>
 
+  <!-- OVERLAY MENU -->
+  <div id="menu" class="menu" aria-hidden="true">
+    <div class="menu-panel">
+      <h4>Menu</h4>
+      <a href="#about">About</a>
+      <a href="#rd">Research &amp; Development</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#media">Media</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
   <header class="hero wrap">
-    <span class="eyebrow"><span class="dot"></span> Creative Tech Holding Company</span>
-    <h1>Smikle Projects & Investments</h1>
+    <h1>Smikle Projects &amp; Investments</h1>
     <p class="sub">
       We build and invest in frontier ideas across <strong>Robotics</strong>,
       <strong>Artificial Intelligence</strong>, <strong>Biotech</strong>, and
       <strong>Media Technology</strong>.
     </p>
-    <div class="cta-row">
-      <a class="btn primary" href="#thesis">Read the Thesis</a>
-      <a class="btn" href="#portfolio">View Portfolio</a>
+
+    <!-- Mission replaces the old buttons -->
+    <div class="mission">
+      <h3>Mission</h3>
+      <p>
+        We design for signal, not noise. SPIn builds and invests in frontier systems across
+        <strong>Robotics</strong>, <strong>Artificial Intelligence</strong>, <strong>Biotech</strong>,
+        and <strong>Media Technology</strong>. Our focus is on innovations that are technically
+        ambitious yet remain human-centred, with design that is sustainable, minimal, and premium.
+        We collaborate to bring new ideas into being, supporting technologies that extend human
+        capability and cultural expression without losing sight of what makes us human. Each project
+        is an attempt to merge rigorous engineering with a sense of purpose, creating outcomes that
+        are both forward-looking and deeply grounded.
+      </p>
     </div>
   </header>
 
-  <!-- rest of your site stays the same ... -->
+  <!-- Example anchors for menu links (optional content can be added later) -->
+  <main class="wrap">
+    <section id="about" class="section" style="display:none"></section>
+    <section id="rd" class="section" style="display:none"></section>
+    <section id="portfolio" class="section" style="display:none"></section>
+    <section id="media" class="section" style="display:none"></section>
 
+    <section id="contact" class="section" style="display:none"></section>
+  </main>
+
+  <!-- FOOTER -->
   <footer class="wrap">
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap">
-      <div class="small">© <span id="year"></span> Smikle Projects & Investments — SPIn</div>
-      <div class="small">Built with a single HTML file. Hosted free.</div>
+    <div class="foot">
+      <div class="small">© <span id="year"></span> Smikle Projects &amp; Investments — SPIn</div>
+      <div class="small"><a class="careers" href="#careers">Careers</a></div>
     </div>
   </footer>
 
   <script>
+    // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // Theme toggle with persistence
     const toggleBtn = document.getElementById('themeToggle');
     const body = document.body;
-
-    // Load stored preference
-    if(localStorage.getItem('theme') === 'light'){
-      body.classList.add('light');
-      toggleBtn.textContent = '☀️';
-    }
+    const saved = localStorage.getItem('theme');
+    if(saved === 'light'){ body.classList.add('light'); toggleBtn.textContent = '☀️'; }
 
     toggleBtn.addEventListener('click', () => {
       body.classList.toggle('light');
       const isLight = body.classList.contains('light');
       toggleBtn.textContent = isLight ? '☀️' : '🌙';
       localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+
+    // Hamburger menu
+    const menuBtn = document.getElementById('menuBtn');
+    const menu = document.getElementById('menu');
+
+    function openMenu(){
+      menu.classList.add('open');
+      menuBtn.classList.add('active');
+      menu.setAttribute('aria-hidden', 'false');
+      document.documentElement.style.overflow = 'hidden';
+    }
+    function closeMenu(){
+      menu.classList.remove('open');
+      menuBtn.classList.remove('active');
+      menu.setAttribute('aria-hidden', 'true');
+      document.documentElement.style.overflow = '';
+    }
+
+    menuBtn.addEventListener('click', () => {
+      menu.classList.contains('open') ? closeMenu() : openMenu();
+    });
+
+    // Close when clicking outside the panel
+    menu.addEventListener('click', (e) => {
+      const panel = e.target.closest('.menu-panel');
+      if(!panel) closeMenu();
+    });
+
+    // Close when pressing Escape
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && menu.classList.contains('open')) closeMenu();
     });
   </script>
 </body>
